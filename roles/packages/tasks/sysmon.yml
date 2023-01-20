@@ -1,0 +1,13 @@
+---
+- name: Install system monitoring 
+  apt:
+    state: present
+    name:
+    - sysstat
+    - glances
+    - btop
+    - htop
+    - lsof
+    - strace
+    - smartmontools
+    - progress

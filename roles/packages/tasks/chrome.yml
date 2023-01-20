@@ -1,0 +1,24 @@
+- name: Chrome | Install prerequisites
+  apt:
+    state: present
+    name: apt-transport-https
+
+- name: Chrome | Get keyring
+  shell:
+    cmd: curl -sL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor >  /usr/share/keyrings/google.gpg
+    creates: /usr/share/keyrings/google.gpg
+
+- name: Chrome | Add repository
+  apt_repository:
+    filename: google-chrome
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google.gpg] https://dl.google.com/linux/chrome/deb/ stable main"
+
+- name: Disable chrome repository configuration
+  copy:
+    dest: /etc/default/google-chrome
+    src: /dev/null
+
+- name: Chrome | Install package
+  apt:
+    state: present
+    name: google-chrome-stable

@@ -1,0 +1,20 @@
+---
+- name: k8s | Install prerequisites
+  apt:
+    state: present
+    name: apt-transport-https
+
+- name: k8s | Add apt keys
+  shell:
+    cmd: curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    creates: /usr/share/keyrings/kubernetes-archive-keyring.gpg
+
+- name: k8s | Add repository
+  apt_repository:
+    filename: k8s
+    repo: "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+
+- name: k8s |Install package
+  apt:
+    state: present
+    name: kubectl

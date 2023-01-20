@@ -1,0 +1,19 @@
+- name: Slack | Install prerequisites
+  apt:
+    state: present
+    name: [ apt-transport-https, curl, gnupg ]
+
+- name: Slack | Add apt keys
+  shell:
+    cmd: curl -sL "https://packagecloud.io/slacktechnologies/slack/gpgkey" | gpg --dearmor > /usr/share/keyrings/packagecloud.gpg
+    creates: /usr/share/keyrings/packagecloud.gpg
+
+- name: Slack | Add repository
+  apt_repository:
+    filename: slack
+    repo: "deb [signed-by=/usr/share/keyrings/packagecloud.gpg] https://packagecloud.io/slacktechnologies/slack/debian jessie main"
+
+- name: Slack | Install package
+  apt:
+    state: present
+    name: slack-desktop

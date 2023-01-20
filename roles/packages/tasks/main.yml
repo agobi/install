@@ -1,0 +1,64 @@
+---
+- include: sysmon.yml
+- name: Install packages
+  apt:
+    name: 
+      - tilix
+      - vim
+      - sl
+      - s-tui
+      - stow
+      - gnupg
+      - git
+      - tig
+      - screen
+      - jq
+      - progress
+      - fzf
+      - ranger
+      - dateutils
+      - pv
+      - meld
+      - curl
+    state: present
+
+- name: Install java
+  apt:
+    state: present
+    name:
+      - openjdk-11-jdk
+      - visualvm
+
+- name: Install maintainer tools
+  apt:
+    name:
+      - pbuilder 
+      - ubuntu-dev-tools
+      - apt-file
+    state: present
+
+- name: Install development tools
+  apt:
+    name:
+      - clang 
+      - build-essential
+      - golang-go
+    state: present
+
+- name: Configure default window manager
+  community.general.alternatives:
+    name: x-terminal-emulator
+    path: /usr/bin/tilix
+
+- name: Install caffeine
+  apt:
+    name: caffeine
+    state: present
+
+- include: sbt.yml
+- include: slack.yml
+- include: chrome.yml
+#- include: zoom.yml
+#- include: rvm.yml
+- include: k8s.yml
+- include: virtualbox.yml

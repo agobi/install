@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  roles:
+    - role: packages
+      become: True
+      tags: [ install ]
+    - role: ssh
+      become: True
+      tags: [ install ]
+    - role: gnome
+      tags: [ gnome, user ]

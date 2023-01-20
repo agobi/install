@@ -1,0 +1,24 @@
+- name: Sbt | Install prerequisites
+  apt:
+    state: present
+    name: [ apt-transport-https, curl, gnupg ]
+
+- name: Sbt | Add apt keys
+  shell: 
+    cmd: curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | gpg --dearmor > /usr/share/keyrings/scalasbt-release.gpg
+    creates: /usr/share/keyrings/scalasbt-release.gpg
+
+- name: Sbt | Add repository
+  apt_repository:
+    filename: sbt
+    repo: "deb [signed-by=/usr/share/keyrings/scalasbt-release.gpg] https://repo.scala-sbt.org/scalasbt/debian all main"
+
+- name: Sbt | Add archive repository
+  apt_repository:
+    filename: sbt_old
+    repo: "deb [signed-by=/usr/share/keyrings/scalasbt-release.gpg] https://repo.scala-sbt.org/scalasbt/debian /"
+
+- name: Sbt | Install package
+  apt:
+    state: present
+    name: sbt

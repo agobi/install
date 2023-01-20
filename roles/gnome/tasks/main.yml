@@ -1,0 +1,25 @@
+- name: Set night light
+  community.general.dconf:
+    key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
+    value: "true"
+    state: present
+
+- name: Set night light color temperature
+  community.general.dconf:
+    key: /org/gnome/settings-daemon/plugins/color/night-light-temperature
+    # 1700-4700
+    value: "uint32 3000"
+    state: present
+
+- name: Disable natural scrolling
+  community.general.dconf:
+    key: /org/gnome/desktop/peripherals/touchpad/natural-scroll
+    value: "false"
+    state: present
+
+- name: Add caffeine to autostart
+  file:
+    dest: $HOME/.config/autostart/caffeine-indicator.desktop
+    src: /usr/share/applications/caffeine-indicator.desktop
+    state: link
+

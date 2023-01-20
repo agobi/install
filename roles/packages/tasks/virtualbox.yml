@@ -1,0 +1,22 @@
+- name: VirtualBox | Install prerequisites
+  apt:
+    state: present
+    name: [ apt-transport-https, curl, gnupg ]
+
+- name: VirtualBox | Add apt keys
+  shell: 
+    cmd: curl -sL "https://www.virtualbox.org/download/oracle_vbox_2016.asc" | gpg --dearmor > /usr/share/keyrings/oracle_vbox_2016.gpg
+    creates: /usr/share/keyrings/oracle_vbox_2016.gpg
+
+- name: Configure repository
+  apt_repository:
+    filename: virtualbox
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle_vbox_2016.gpg] https://download.virtualbox.org/virtualbox/debian hirsute contrib"
+
+- name: Install packages
+  apt:
+    state: present
+    name:
+      - virtualbox
+      - virtualbox-ext-pack
+
